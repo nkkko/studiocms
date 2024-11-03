@@ -1,19 +1,15 @@
-FROM node:lts AS base 
+ARG NODE_VERSION=20.14.0
+
+FROM node:${NODE_VERSION} AS base 
 WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
 
-FROM base AS setup
-COPY . .
-# Update & Enable Proto
-RUN apt-get update && apt-get install -y curl git unzip gzip xz-utils
-RUN curl -fsSL https://moonrepo.dev/install/proto.sh | bash -s -- --yes
-
-FROM setup AS install
-RUN proto install
-
-FROM install AS build-deps
+FROM base AS build-deps
+RUN corepack enable pnpm && pnpm -v
 RUN pnpm install --frozen-lockfile
 
 FROM build-deps AS build
+COPY . .
 RUN pnpm build:docs
 
 FROM nginx:alpine AS runtime
