@@ -1,6 +1,6 @@
 ARG NODE_VERSION=20.14.0
 
-FROM node:${NODE_VERSION} AS base 
+FROM node:${NODE_VERSION} AS build 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable pnpm && pnpm -v
