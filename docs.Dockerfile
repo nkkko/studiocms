@@ -6,9 +6,11 @@ COPY . .
 # Update & Enable Proto
 RUN apt-get update && apt-get install -y curl git unzip gzip xz-utils
 RUN curl -fsSL https://moonrepo.dev/install/proto.sh | bash -s -- --yes
-CMD proto install
 
-FROM setup AS build-deps
+FROM setup AS install
+RUN proto install
+
+FROM install AS build-deps
 RUN pnpm install --frozen-lockfile
 
 FROM build-deps AS build
