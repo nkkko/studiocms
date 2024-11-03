@@ -6,9 +6,9 @@
 # Node version
 ARG NODE_VERSION=20.14.0
 # App directory
-ARG APP_DIR="www/docs"
+ARG APP_DIR=www/docs
 # pnpm build command
-ARG BUILD_CMD="build:docs"
+ARG BUILD_CMD=build:docs
 
 # Build stage
 FROM node:${NODE_VERSION} AS build 
